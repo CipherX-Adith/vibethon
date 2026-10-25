@@ -1,0 +1,13 @@
+{
+  "name": "aetheris-marketplace",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node server.mjs"
+  },
+  "description": "Multi-organization circular-materials marketplace with SQLite persistence and authenticated workspaces"
+}
