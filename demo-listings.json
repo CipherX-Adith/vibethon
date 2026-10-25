@@ -1,0 +1,219 @@
+[
+  {
+    "id": "seed-1",
+    "type": "offer",
+    "family": "sulfur-tailings",
+    "company": "Demo Copper Producer",
+    "material": "Sulfur-bearing copper mine tailings. Assay and recovery yield not yet confirmed.",
+    "amount": 2400,
+    "unit": "tonnes / month",
+    "location": "Atacama, Chile",
+    "price": null,
+    "properties": [
+      "sulfur-bearing",
+      "metal-bearing",
+      "mineral-rich"
+    ],
+    "requiredProperties": []
+  },
+  {
+    "id": "seed-2",
+    "type": "request",
+    "family": "metal-sulfate",
+    "company": "Demo Battery Materials Buyer",
+    "material": "Purified metal-sulfate feedstock for cathode precursor production; qualification required.",
+    "amount": 800,
+    "unit": "tonnes / month",
+    "location": "Nevada, USA",
+    "price": null,
+    "properties": [],
+    "requiredProperties": [
+      "metal-bearing"
+    ]
+  },
+  {
+    "id": "seed-3",
+    "type": "offer",
+    "family": "rice-husks",
+    "company": "Regional Rice Mill (Demo)",
+    "material": "Rice husks from milling. Dryness and silica content vary by batch.",
+    "amount": 600,
+    "unit": "tonnes / month",
+    "location": "Kerala, India",
+    "price": null,
+    "properties": [
+      "silica-rich",
+      "carbon-rich",
+      "plant-fiber"
+    ],
+    "requiredProperties": []
+  },
+  {
+    "id": "seed-4",
+    "type": "request",
+    "family": "activated-carbon",
+    "company": "Demo Water Systems Buyer",
+    "material": "Activated carbon or filter media for treatment applications; performance must be certified.",
+    "amount": 80,
+    "unit": "tonnes / month",
+    "location": "Karnataka, India",
+    "price": null,
+    "properties": [],
+    "requiredProperties": [
+      "carbon-rich"
+    ]
+  },
+  {
+    "id": "seed-5",
+    "type": "request",
+    "family": "soil-amendment",
+    "company": "Demo Regenerative Farm Network",
+    "material": "Tested biochar or treated organic digestate for agronomic soil applications.",
+    "amount": 55,
+    "unit": "tonnes / month",
+    "location": "Kerala, India",
+    "price": null,
+    "properties": [],
+    "requiredProperties": [
+      "organic"
+    ]
+  },
+  {
+    "id": "seed-6",
+    "type": "offer",
+    "family": "food-organics",
+    "company": "Demo Food Processing Co-op",
+    "material": "Separated fruit and vegetable residues; moisture and contamination need checking.",
+    "amount": 45,
+    "unit": "tonnes / week",
+    "location": "Tamil Nadu, India",
+    "price": null,
+    "properties": [
+      "organic",
+      "high-moisture"
+    ],
+    "requiredProperties": []
+  },
+  {
+    "id": "seed-7",
+    "type": "request",
+    "family": "biogas",
+    "company": "Demo Community Energy Operator",
+    "material": "Consistent organic feedstock for a permitted anaerobic digestion site.",
+    "amount": 20,
+    "unit": "tonnes / week",
+    "location": "Tamil Nadu, India",
+    "price": null,
+    "properties": [],
+    "requiredProperties": [
+      "organic"
+    ]
+  },
+  {
+    "id": "seed-8",
+    "type": "request",
+    "family": "soil-amendment",
+    "company": "Demo Farm Nutrient Buyer",
+    "material": "Treated digestate-derived nutrients for soil improvement, subject to testing and agronomic approval.",
+    "amount": 35,
+    "unit": "tonnes / week",
+    "location": "Tamil Nadu, India",
+    "price": null,
+    "properties": [],
+    "requiredProperties": [
+      "organic"
+    ]
+  },
+  {
+    "id": "seed-9",
+    "type": "offer",
+    "family": "textile-fiber",
+    "company": "Demo Garment Manufacturer",
+    "material": "Mixed cotton and polyester offcuts. Fiber blend varies by production run.",
+    "amount": 11,
+    "unit": "tonnes / month",
+    "location": "Coimbatore, India",
+    "price": null,
+    "properties": [
+      "fiber-based",
+      "mixed-polymer"
+    ],
+    "requiredProperties": []
+  },
+  {
+    "id": "seed-10",
+    "type": "request",
+    "family": "insulation-panel",
+    "company": "Demo Building Products Buyer",
+    "material": "Recycled-fiber insulation panels for non-structural building retrofit.",
+    "amount": 4,
+    "unit": "tonnes / month",
+    "location": "Coimbatore, India",
+    "price": null,
+    "properties": [],
+    "requiredProperties": [
+      "fiber-based"
+    ]
+  },
+  {
+    "id": "seed-11",
+    "type": "offer",
+    "family": "spent-catalyst",
+    "company": "Demo Refinery Operator",
+    "material": "Spent nickel/cobalt-bearing catalyst. Laboratory assay required before recovery.",
+    "amount": 18,
+    "unit": "tonnes / month",
+    "location": "Antwerp, Belgium",
+    "price": null,
+    "properties": [
+      "metal-bearing",
+      "mineral-rich"
+    ],
+    "requiredProperties": []
+  },
+  {
+    "id": "seed-12",
+    "type": "request",
+    "family": "critical-metals",
+    "company": "Demo Metals Recovery Buyer",
+    "material": "Secondary nickel/cobalt intermediates for further refining and qualification.",
+    "amount": 10,
+    "unit": "tonnes / month",
+    "location": "Rotterdam, Netherlands",
+    "price": null,
+    "properties": [],
+    "requiredProperties": [
+      "metal-bearing"
+    ]
+  },
+  {
+    "id": "seed-13",
+    "type": "offer",
+    "family": "construction-rubble",
+    "company": "Demo Demolition Contractor",
+    "material": "Sorted concrete and masonry rubble; grading is not certified.",
+    "amount": 320,
+    "unit": "tonnes / month",
+    "location": "Pune, India",
+    "price": null,
+    "properties": [
+      "mineral-rich"
+    ],
+    "requiredProperties": []
+  },
+  {
+    "id": "seed-14",
+    "type": "request",
+    "family": "recycled-aggregate",
+    "company": "Demo Roadworks Buyer",
+    "material": "Graded recycled aggregate for engineer-approved non-structural drainage and road base.",
+    "amount": 250,
+    "unit": "tonnes / month",
+    "location": "Pune, India",
+    "price": null,
+    "properties": [],
+    "requiredProperties": [
+      "mineral-rich"
+    ]
+  }
+]

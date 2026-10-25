@@ -1,52 +1,46 @@
 # Aetheris — circular materials marketplace
 
-Aetheris is a two-sided exchange for surplus materials and industrial inputs. Sellers describe what they have; buyers request what they need. The discovery map links surplus families to recovery processes, recovered materials, and the industries that may use them. Its central purpose is to uncover useful cross-industry routes that a standard buy/sell catalog would miss.
+Aetheris connects public surplus offers and buyer requests through a curated cross-industry material graph. The app now includes organization accounts, durable listing and saved-item storage, and server-side session authentication.
 
-## Run the prototype
+## Run locally
 
-Open `index.html` in a modern browser. The prototype needs no server, account, API key, or network connection.
+Install Node.js 22.13 or newer. Copy the environment example to a local .env file, then run npm start in this folder and open http://127.0.0.1:4173. The SQLite database is created automatically at data/aetheris.sqlite; the first run seeds the illustrative demo marketplace. Node 22 may print an experimental API warning for its built-in SQLite driver. Database files and .env are ignored by Git.
 
-## Marketplace features
+Create an organization account from Sign in → Create account. Passwords must be at least 12 characters. Sign in to publish offers or requests, save listings, and run Gemini extraction if a Gemini key is configured. Public browsing and the curated map work without an account.
 
-- Search across materials, companies, locations, processes, and industries.
-- Filter by offers, buyer requests, material family, industry, region, or saved items; sort by recency, listed quantity, price, and mapped routes.
-- Save listings to a browser-local shortlist.
-- Add a surplus offer or resource request using the shared material catalog. Common aliases in the description can resolve an “Other” entry to a known family.
-- Open any listing in the discovery map to see the associated pathway.
+To enable Gemini, set GEMINI_API_KEY in the local .env file. Never put a key in browser code or commit it. The model receives only the material description, selected material family, and offer/request type. Amount, price, region, account information, and database records are not sent to the model.
 
-New entries and saved items stay in this browser's local storage. The prototype does not publish listings, contact counterparties, arrange delivery, or process transactions.
+## Product architecture
 
-## Discovery map
+- index.html and styles.css: Marketplace, material map, analysis, account dialogs.
+- app.js: Graph display, local deterministic matching, filters, and browser interaction.
+- analysis.js: Workbench orchestration, ranking explanation, route evidence, scenario estimator.
+- auth.js: Sign-in and registration UI, session refresh, CSRF token handling, authenticated browser API client.
+- server.mjs: HTTP server, authentication, organization membership, listings/saved APIs, Gemini proxy, validation and rate limits.
+- database.mjs: SQLite startup, migration runner, and demo seeding.
+- migrations/001_initial.sql: Versioned relational schema.
+- demo-listings.json: Explicitly labeled demo inventory inserted into SQLite on first run.
+- ARCHITECTURE.md: Data model, request flows, security decisions, assumptions, and production gaps.
 
-The main graph has four linked stages: **surplus stream → recovery process → recovered material → buyer industry**. Select a route, node, or edge to inspect its process hypothesis, related marketplace activity, and qualification checklist. Use the route filters, text search, zoom controls, and pathway list to explore different parts of the network.
+## Database and accounts
 
-Eight illustrative routes are represented:
+SQLite persists users, organizations, memberships, sessions, listings, and saved listings. Registration creates one organization and makes its first user the owner. Listings are associated with that organization, and the server derives the published company name from the signed-in account instead of trusting a form field. All users can browse active offers and requests; only organization owners/admins can remove organization listings. Demo listings cannot be deleted.
 
-1. Sulfur-bearing mine or smelter residue → sulfate purification → battery-material feedstock.
-2. Rice husks → pyrolysis and activation → filtration media for water treatment.
-3. Rice husks → controlled pyrolysis → potential soil amendment.
-4. Food-processing organics → anaerobic digestion → biogas for local energy.
-5. Food-processing organics → digestion and digestate treatment → a potential farm nutrient input.
-6. Textile offcuts → fiber recovery and panelization → insulation products.
-7. Spent catalyst → metal recovery → nickel/cobalt intermediates.
-8. Construction rubble → sorting and grading → recycled aggregate for approved uses.
+The schema uses foreign keys, indexes, soft deletion for live listings, and a PRAGMA user_version migration sequence. Sessions use random opaque cookie tokens; only their SHA-256 digests are stored. Passwords use per-user salts and Node's scrypt implementation. Session cookies are HttpOnly and SameSite=Lax, and become Secure when NODE_ENV=production. JSON mutations also require a same-origin request and a session CSRF token.
 
-These are discovery hypotheses. The map does not claim that a specific feedstock will meet a buyer's specification or that a processor is available. Route cards explain the checks that matter, including composition, contamination, yield, safety, permits, engineering approval, and product qualification.
+## Material analysis
 
-### Farm-cycle view
+1. Extract: Authenticated requests can send a description to Gemini for constrained structured extraction. Without a configured key, the UI clearly uses local taxonomy/rules.
+2. Retrieve: The browser checks Aetheris's curated routes and their source notes.
+3. Rank: Deterministic rules compare family, stated properties, broad region, and quantities only for directly comparable material families.
+4. Qualify: The app shows evidence, uncertainty, missing details, and checks for human review.
 
-The agriculture view traces food and crop residues through source separation and anaerobic digestion. Biogas may serve farm or greenhouse energy needs; a separate digestate stream must be treated, lab-tested, and approved before any site-specific soil application. Crops may create new residues that re-enter collection. The map flags feedstock quality, operator and equipment needs, safety, and agronomic review as conditions in the loop.
+AI does not verify material safety, determine conversion yield, approve a buyer, or create graph routes. Match scores are screening heuristics, not probabilities.
 
-## How matching works
+## Engineering scope and limits
 
-1. Resolve seller and buyer descriptions to shared material families and extract a small set of stated attributes.
-2. Traverse the local directed graph from a surplus family through a mapped conversion to a product family and industry.
-3. Pair compatible offers and requests. Direct family matches are distinct from routes that require processing.
-4. Compare listed attributes, region text, quantities, and prices only when the values are comparable. Conversion yield and processing costs are unknown, so source and output tonnage or prices are not treated as equivalent.
-5. Show qualification steps and missing information for a human to review.
+This build uses SQLite because it provides a real relational database and zero external service setup for a single-host pilot. It is suitable for a local demo or a small, single-instance deployment with persistent disk. It is not configured for horizontal scaling: multiple server replicas must not share a local SQLite file. Before running a production multi-instance SaaS, migrate to managed PostgreSQL, move session/rate-limit state to shared services, and configure durable backups and secret management.
 
-This is a transparent rules-based prototype, not a live AI service or a predictive model. Its seeded companies, quantities, prices, regions, and listings are synthetic examples. It has no live supplier database, verified specifications, processor capacity, logistics or emissions integrations, or independent certification data.
+Registration currently creates a workspace owner. The membership schema supports owner/admin/member roles, but team invitations, email verification, password reset delivery, MFA, audit logs, listing edit/version history, messaging, payment, and transaction settlement need an email provider and further product/security work. No real companies or processor capacity are verified; seeded listings are synthetic.
 
-## SaaS direction
-
-A production service could add organization workspaces, verified company and material profiles, private sourcing requests, processor capacity, logistics estimates, audit trails, and opt-in match alerts. The map could then be grounded in verified process data and region-specific supply chains. Those capabilities require a shared backend, user permissions, data governance, and expert review; they are not implemented by this local prototype.
+APP_ORIGIN must equal the public HTTPS origin when deployed behind a reverse proxy. Set HOST=0.0.0.0 for a container/platform that needs the app to bind externally, use HTTPS termination, set NODE_ENV=production, and keep the database on a persistent volume. Do not deploy the SQLite file to an ephemeral serverless filesystem.
